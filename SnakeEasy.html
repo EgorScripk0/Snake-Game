@@ -29,15 +29,15 @@
       }
     });
   
-    var canvas = document.getElementById('game');
+    const canvas = document.getElementById('game');
    
-    var context = canvas.getContext('2d');
+    const context = canvas.getContext('2d');
  
-    var grid = 16;
+    const grid = 16;
     
-    var count = 0;
+   
  
-    var snake = {
+    const snake = {
     
       x: 160,
       y: 160,
@@ -50,7 +50,7 @@
       maxCells: 4
     };
     
-    var apple = {
+    const apple = {
     
       x: 320,
       y: 320
@@ -60,10 +60,10 @@
       return Math.floor(Math.random() * (max - min)) + min;
     }
 
-    var count = 0;
-    var scoreEl = document.getElementById('score');
+    let count = 0;
+    const scoreEl = document.getElementById('score');
 
-    var gameOver = false;
+    const gameOver = false;
 
 function loop() {
   requestAnimationFrame(loop);
@@ -106,7 +106,7 @@ function loop() {
       apple.x = getRandomInt(0, 25) * grid;
       apple.y = getRandomInt(0, 25) * grid;
     }
-    for (var i = index + 1; i < snake.cells.length; i++) {
+    for (let i = index + 1; i < snake.cells.length; i++) {
       if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) {
         gameOver = true;
       }
