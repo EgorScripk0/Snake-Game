@@ -63,42 +63,28 @@
     let count = 0;
     const scoreEl = document.getElementById('score');
 
+    const playBtn = document.getElementById("play");
+    let clickCount = 0;
+
+    playBtn.addEventListener("click", function() {
+      clickCount++;
+      if (clickCount > 3) {
+        playBtn.disabled = true;
+      }
+      playBtn.innerText = "Сделать быстрее";
+    });
+
     function loop() {
-  requestAnimationFrame(loop);
-  if (++count < 14) {
-    return;
-  }
-  count = 0;
-  scoreEl.innerText = 'Счет: ' + (snake.maxCells - 4);
-  context.clearRect(0, 0, canvas.width, canvas.height);
-  snake.x += snake.dx;
-  snake.y += snake.dy;
-  if (snake.x < 0 || snake.x >= canvas.width || snake.y < 0 || snake.y >= canvas.height) {
-    snake.x = 160;
-    snake.y = 160;
-    snake.cells = [];
-    snake.maxCells = 4;
-    snake.dx = grid;
-    snake.dy = 0;
-    apple.x = getRandomInt(0, 25) * grid;
-    apple.y = getRandomInt(0, 25) * grid;
-  }
-  snake.cells.unshift({ x: snake.x, y: snake.y });
-  if (snake.cells.length > snake.maxCells) {
-    snake.cells.pop();
-  }
-  context.fillStyle = 'red';
-  context.fillRect(apple.x, apple.y, grid - 1, grid - 1);
-  context.fillStyle = 'green';
-  snake.cells.forEach(function (cell, index) {
-    context.fillRect(cell.x, cell.y, grid - 1, grid - 1);
-    if (cell.x === apple.x && cell.y === apple.y) {
-      snake.maxCells++;
-      apple.x = getRandomInt(0, 25) * grid;
-      apple.y = getRandomInt(0, 25) * grid;
-    }
-    for (let i = index + 1; i < snake.cells.length; i++) {
-      if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) {
+      requestAnimationFrame(loop);
+      if (++count < 14) {
+        return;
+      }
+      count = 0;
+      scoreEl.innerText = 'Счет: ' + (snake.maxCells - 4);
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      snake.x += snake.dx;
+      snake.y += snake.dy;
+      if (snake.x < 0 || snake.x >= canvas.width || snake.y < 0 || snake.y >= canvas.height) {
         snake.x = 160;
         snake.y = 160;
         snake.cells = [];
@@ -108,9 +94,34 @@
         apple.x = getRandomInt(0, 25) * grid;
         apple.y = getRandomInt(0, 25) * grid;
       }
+      snake.cells.unshift({ x: snake.x, y: snake.y });
+      if (snake.cells.length > snake.maxCells) {
+        snake.cells.pop();
+      }
+      context.fillStyle = 'red';
+      context.fillRect(apple.x, apple.y, grid - 1, grid - 1);
+      context.fillStyle = 'green';
+      snake.cells.forEach(function (cell, index) {
+        context.fillRect(cell.x, cell.y, grid - 1, grid - 1);
+        if (cell.x === apple.x && cell.y === apple.y) {
+          snake.maxCells++;
+          apple.x = getRandomInt(0, 25) * grid;
+          apple.y = getRandomInt(0, 25) * grid;
+        }
+        for (let i = index + 1; i < snake.cells.length; i++) {
+          if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) {
+            snake.x = 160;
+            snake.y = 160;
+            snake.cells = [];
+            snake.maxCells = 4;
+            snake.dx = grid;
+            snake.dy = 0;
+            apple.x = getRandomInt(0, 25) * grid;
+            apple.y = getRandomInt(0, 25) * grid;
+          }
+        }
+      });
     }
-  });
-}
 
     document.addEventListener('keydown', function (e) {
       if (e.which === 37 && snake.dx === 0) {
@@ -130,14 +141,18 @@
         snake.dx = 0;
       }
     });
-    document.getElementById("play").addEventListener("click", loop)
+    
 
+    
+    
 
-
-    const playBtn = document.getElementById("play");
-  
     playBtn.addEventListener("click", function() {
         playBtn.innerText = "Сделать быстрее";
+    });
+    document.getElementById("play").addEventListener("click", function() {
+      if (clickCount <= 2) {
+        loop();
+      }
     });
   </script>
 </body>

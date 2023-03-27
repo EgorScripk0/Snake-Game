@@ -62,6 +62,16 @@
 
     
     const scoreEl = document.getElementById('score');
+    let clickCount = 0;
+    
+    const playBtn = document.getElementById("play");
+    playBtn.addEventListener("click", function() {
+        clickCount++;
+        if (clickCount >= 2) {
+            playBtn.disabled = true;
+        }
+        playBtn.innerText = "Сделать быстрее";
+    });
 
     function loop() {
       
@@ -143,7 +153,7 @@
 
 
 
-    const playBtn = document.getElementById("play");
+    
   
     playBtn.addEventListener("click", function() {
         playBtn.innerText = "Сделать быстрее";
